@@ -1,3 +1,3 @@
 function init() {
-  console.info(THREE.VERSION);
+  console.info(THREE.REVISION);
 }
