@@ -1,2 +1,2 @@
-export * from "../threejs/Three";
-export as namespace THREE;
+import THREE from '../threejs/Three';
+declare var THREE: THREE;
