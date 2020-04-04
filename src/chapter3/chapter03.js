@@ -28,6 +28,8 @@ var Test = (function () {
     renderer.setClearColor(new THREE.Color(0x000000));
     // 设置场景背景尺寸
     renderer.setSize(window.innerWidth, window.innerHeight);
+    // 渲染阴影效果
+    renderer.shadowMap.enabled = true;
 
     // 向场景中添加 轴
     var axes = new THREE.AxesHelper(20);
@@ -45,6 +47,8 @@ var Test = (function () {
     // 设置plane位置信息 并添加到场景中
     plane.rotation.x = -0.5 * Math.PI;
     plane.position.set(15, 0, 0);
+    // 设置接收阴影效果
+    plane.receiveShadow = true;
     scene.add(plane);
 
     // create cube
@@ -57,6 +61,8 @@ var Test = (function () {
     // add mesh
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.position.set(-4, 3, 0);
+    // 设置投影阴影效果
+    cube.castShadow = true;
     scene.add(cube);
 
     // create sphere
@@ -66,6 +72,8 @@ var Test = (function () {
     });
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     sphere.position.set(20, 4, 2);
+    // 设置投影阴影效果
+    sphere.castShadow = true;
     scene.add(sphere);
 
     // 设置相机位置 默认是 (0, 0, 0)
