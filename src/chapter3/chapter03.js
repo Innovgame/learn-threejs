@@ -3,13 +3,19 @@
 var Test = (function () {
   function Test() {};
 
+  // 场景
+  const scene = new THREE.Scene();
+  // 相机
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  // 渲染使用webgl renderer
+  const renderer = new THREE.WebGLRenderer();
+
+  function renderScene() {
+    requestAnimationFrame(renderScene);
+    renderer.render(scene, camera);
+  };
+
   Test.prototype.init = function () {
-    // 场景
-    const scene = new THREE.Scene();
-
-    // 相机
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-
     // 光源
     const spotLight = new THREE.SpotLight(0xFFFFFF);
     // 位置
@@ -22,8 +28,7 @@ var Test = (function () {
     spotLight.shadow.camera.near = 40;
     scene.add(spotLight);
 
-    // 渲染使用webgl renderer
-    const renderer = new THREE.WebGLRenderer();
+    // renderer
     // 设置场景背景颜色
     renderer.setClearColor(new THREE.Color(0x000000));
     // 设置场景背景尺寸
@@ -81,8 +86,10 @@ var Test = (function () {
     camera.lookAt(scene.position);
 
     document.getElementById('webgl-output').appendChild(renderer.domElement);
-    renderer.render(scene, camera);
+    // renderer.render(scene, camera);
+    renderScene();
   };
+
   return Test;
 })();
 
