@@ -93,6 +93,10 @@ var Test = (function () {
 
     document.getElementById('webgl-output').appendChild(renderer.domElement);
 
+    // init track controls
+    const trackControls = initTrackballControls(camera, renderer);
+    const clock = new THREE.Clock();
+
     // var and func
     var controls = new function () {
       this.rotationSpeed = 0.02;
@@ -104,6 +108,7 @@ var Test = (function () {
       moveSphere();
       stats.update();
 
+      trackControls.update(clock.getDelta());
       requestAnimationFrame(renderScene);
       renderer.render(scene, camera);
     };
@@ -126,7 +131,7 @@ var Test = (function () {
       var gui = new dat.GUI();
       gui.add(controls, 'rotationSpeed', 0, 0.5);
       gui.add(controls, 'bouncingSpeed', 0, 0.5);
-    }
+    };
 
     // start scenes
     initGUI();
