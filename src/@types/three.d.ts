@@ -1,2 +1,1 @@
-import THREE from '../../threejs/Three';
-declare var THREE: THREE;
+export * from '../../threejs/Three';
