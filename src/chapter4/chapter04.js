@@ -92,7 +92,12 @@ var Test = (function () {
     camera.lookAt(scene.position);
 
     document.getElementById('webgl-output').appendChild(renderer.domElement);
-    renderScene();
+
+    // var and func
+    var controls = new function () {
+      this.rotationSpeed = 0.02;
+      this.bouncingSpeed = 0.03;
+    };
 
     function renderScene() {
       rotateCube();
@@ -104,17 +109,28 @@ var Test = (function () {
     };
 
     function rotateCube() {
-      cube.rotation.x += 0.02;
-      cube.rotation.y += 0.02;
-      cube.rotation.z += 0.02;
+      cube.rotation.x += controls.bouncingSpeed;
+      cube.rotation.y += controls.bouncingSpeed;
+      cube.rotation.z += controls.bouncingSpeed;
     };
 
     var step = 0;
+
     function moveSphere() {
-      step += 0.04;
+      step += controls.rotationSpeed;
       sphere.position.x = 20 + 10 * (Math.cos(step));
       sphere.position.y = 2 + 10 * Math.abs(Math.sin(step));
     };
+
+    function initGUI() {
+      var gui = new dat.GUI();
+      gui.add(controls, 'rotationSpeed', 0, 0.5);
+      gui.add(controls, 'bouncingSpeed', 0, 0.5);
+    }
+
+    // start scenes
+    initGUI();
+    renderScene();
   };
 
   return Test;
