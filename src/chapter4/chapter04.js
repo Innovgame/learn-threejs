@@ -11,13 +11,7 @@ var Test = (function () {
   const renderer = new THREE.WebGLRenderer();
 
   // stats
-  let stats = initStats();
-
-  function renderScene() {
-    stats.update();
-    requestAnimationFrame(renderScene);
-    renderer.render(scene, camera);
-  };
+  const stats = initStats();
 
   function initStats(type) {
     const panelType = (typeof type !== 'undefined' && type) && (!isNaN(type)) ? parseInt(type) : 0;
@@ -99,6 +93,20 @@ var Test = (function () {
 
     document.getElementById('webgl-output').appendChild(renderer.domElement);
     renderScene();
+
+    function renderScene() {
+      updateCube();
+      stats.update();
+
+      requestAnimationFrame(renderScene);
+      renderer.render(scene, camera);
+    };
+
+    function updateCube() {
+      cube.rotation.x += 0.02;
+      cube.rotation.y += 0.02;
+      cube.rotation.z += 0.02;
+    }
   };
 
   return Test;
