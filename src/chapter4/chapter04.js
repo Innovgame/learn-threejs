@@ -95,18 +95,26 @@ var Test = (function () {
     renderScene();
 
     function renderScene() {
-      updateCube();
+      rotateCube();
+      moveSphere();
       stats.update();
 
       requestAnimationFrame(renderScene);
       renderer.render(scene, camera);
     };
 
-    function updateCube() {
+    function rotateCube() {
       cube.rotation.x += 0.02;
       cube.rotation.y += 0.02;
       cube.rotation.z += 0.02;
-    }
+    };
+
+    var step = 0;
+    function moveSphere() {
+      step += 0.04;
+      sphere.position.x = 20 + 10 * (Math.cos(step));
+      sphere.position.y = 2 + 10 * Math.abs(Math.sin(step));
+    };
   };
 
   return Test;
