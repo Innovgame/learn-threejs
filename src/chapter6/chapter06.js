@@ -93,6 +93,16 @@ var Test = (function () {
     cube.castShadow = true;
     scene.add(cube);
 
+    // custom cube geometry
+    const customCubeGeom = new CustomCubeGeometry();
+    const customCubeMat = new THREE.MeshLambertMaterial({
+      color: 0xc3d223
+    });
+    const customCube = new THREE.Mesh(customCubeGeom, customCubeMat);
+    customCube.position.set(-4, 10, 0);
+    customCube.castShadow = true;
+    scene.add(customCube);
+
     // create sphere
     const sphereGeometry = new THREE.SphereGeometry(4, 20, 20);
     const sphereMaterial = new THREE.MeshLambertMaterial({
@@ -226,7 +236,7 @@ var CubeGenerater = (function () {
   return Generater;
 })();
 
-var CustomCubeGeometry = (function () {
+var CustomCubeGeometry = function () {
 
   const vertices = [
     new THREE.Vector3(1, 3, 1),
@@ -260,7 +270,7 @@ var CustomCubeGeometry = (function () {
   geom.computeFaceNormals();
 
   return geom;
-})();
+}
 
 const test = new Test();
 test.init();
