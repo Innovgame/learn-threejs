@@ -54,6 +54,11 @@ var Test = (function () {
     var axes = new THREE.AxesHelper(20);
     scene.add(axes);
 
+    // override material
+    // scene.overrideMaterial = new THREE.MeshLambertMaterial({
+    //   color: 0xCCCCCC
+    // });
+
     // 添加雾化效果
     // scene.fog = new THREE.Fog(0xffffff, 0.015, 100);
     scene.fog = new THREE.FogExp2(0xffffff, 0.01);
@@ -141,7 +146,7 @@ var Test = (function () {
     };
 
     function rotationAllCube() {
-      scene.traverse(function(obj) {
+      scene.traverse(function (obj) {
         if (obj instanceof THREE.Mesh && obj != plane && obj != sphere) {
           obj.rotation.x += controls.rotationSpeed;
           obj.rotation.y += controls.rotationSpeed;
