@@ -54,6 +54,10 @@ var Test = (function () {
     var axes = new THREE.AxesHelper(20);
     scene.add(axes);
 
+    // 添加雾化效果
+    // scene.fog = new THREE.Fog(0xffffff, 0.015, 100);
+    scene.fog = new THREE.FogExp2(0xffffff, 0.01);
+
     // 添加平面
     // geometry 几何平面
     const planeGeometry = new THREE.PlaneGeometry(60, 20);
