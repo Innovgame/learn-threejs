@@ -105,20 +105,45 @@ var Test = (function () {
     const trackControls = initTrackballControls(camera, renderer);
     const clock = new THREE.Clock();
 
+    // 产生cube
+    const cubeGen = new CubeGenerater(scene);
+
     // var and func
     var controls = new function () {
       this.rotationSpeed = 0.02;
       this.bouncingSpeed = 0.03;
+      this.addCube = function () {
+        cubeGen.addCube();
+      };
+
+      this.removeCube = function () {
+        cubeGen.removeCube();
+      };
+
+      this.outputObjects = function () {
+        cubeGen.outputObjects();
+      }
     };
 
     function renderScene() {
       rotateCube();
       moveSphere();
       stats.update();
+      rotationAllCube();
 
       trackControls.update(clock.getDelta());
       requestAnimationFrame(renderScene);
       renderer.render(scene, camera);
+    };
+
+    function rotationAllCube() {
+      scene.traverse(function(obj) {
+        if (obj instanceof THREE.Mesh && obj != plane && obj != sphere) {
+          obj.rotation.x += controls.rotationSpeed;
+          obj.rotation.y += controls.rotationSpeed;
+          obj.rotation.z += controls.rotationSpeed;
+        }
+      });
     };
 
     function rotateCube() {
@@ -139,6 +164,9 @@ var Test = (function () {
       var gui = new dat.GUI();
       gui.add(controls, 'rotationSpeed', 0, 0.5);
       gui.add(controls, 'bouncingSpeed', 0, 0.5);
+      gui.add(controls, 'addCube');
+      gui.add(controls, 'removeCube');
+      gui.add(controls, 'outputObjects');
     };
 
     // start scenes
@@ -149,8 +177,10 @@ var Test = (function () {
   return Test;
 })();
 
-var CubeGenerater = (function (scene) {
-  function Generater() {};
+var CubeGenerater = (function () {
+  function Generater(scene) {
+    this.scene = scene
+  };
 
   Generater.prototype.addCube = function () {
     const cubeSize = Math.ceil(Math.random() * 3);
@@ -160,28 +190,32 @@ var CubeGenerater = (function (scene) {
     });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.castShadow = true;
-    cube.name = 'cube-' + scene.children.length;
+    cube.name = 'cube-' + this.scene.children.length;
     cube.position.x = -30 + Math.round(Math.random() * 60);
     cube.position.y = Math.round(Math.random() * 5);
     cube.position.z = -20 + Math.round(Math.random() * 20);
 
-    scene.add(cube);
-    this.numberOfObjects = scene.children.length;
+    this.scene.add(cube);
+    this.numberOfObjects = this.scene.children.length;
     return cube;
   };
 
   Generater.prototype.removeCube = function () {
-    const allChildren = scene.children;
+    const allChildren = this.scene.children;
     const lastObj = allChildren[allChildren.length - 1];
     if (lastObj instanceof THREE.Mesh) {
-      scene.remove(lastObj);
-      this.numberOfObjects = scene.children.length;
+      this.scene.remove(lastObj);
+      this.numberOfObjects = this.scene.children.length;
     }
     return lastObj;
-  }
+  };
+
+  Generater.prototype.outputObjects = function () {
+    console.log(this.scene.children);
+  };
 
   return Generater;
-})(scene);
+})();
 
 const test = new Test();
 test.init();
